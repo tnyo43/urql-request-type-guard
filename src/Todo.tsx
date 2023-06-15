@@ -21,6 +21,8 @@ const Todos = () => {
   if (fetching) return <p>Loading...</p>;
   if (error) return <p>Oh no... {error.message}</p>;
 
+  if (!data) return <p>Something happens :(</p>;
+
   return (
     <ul>
       {data.todos.map((todo) => (
