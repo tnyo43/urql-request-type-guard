@@ -1,3 +1,5 @@
+import React from 'react';
+import { useQuery } from 'urql';
 import { graphql } from './gql';
 
 const TodosQuery = graphql(`
@@ -8,3 +10,22 @@ const TodosQuery = graphql(`
     }
   }
 `);
+
+const Todos = () => {
+  const [result, reexecuteQuery] = useQuery({
+    query: TodosQuery
+  });
+
+  const { data, fetching, error } = result;
+
+  if (fetching) return <p>Loading...</p>;
+  if (error) return <p>Oh no... {error.message}</p>;
+
+  return (
+    <ul>
+      {data.todos.map((todo) => (
+        <li key={todo.id}>{todo.title}</li>
+      ))}
+    </ul>
+  );
+};
